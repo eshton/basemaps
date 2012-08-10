@@ -69,7 +69,7 @@ vars= {
    'layer_suffix':layer_suffixes,
    'maxscale':maxscales,
    'minscale':minscales,
-   
+
    'land_clr': '"#E8E6E1"',
    'land_data': {
       0:'"data/TM_WORLD_BORDERS-0.3.shp"',
@@ -80,8 +80,8 @@ vars= {
       0:'"init=epsg:4326"',
       3:'"init=epsg:3857"',
    },
-   
-   
+
+
    ##### water #####
    'waterarea_data': {
       0: '"geometry from (select geometry,osm_id ,OSM_NAME_COLUMN as name,type from OSM_PREFIX_waterareas_gen0) as foo using unique osm_id using srid=OSM_SRID"',
@@ -102,11 +102,11 @@ vars= {
       6:1
    },
    'waterways_data': {
-      0:'"geometry from (select geometry, osm_id, type, OSM_NAME_COLUMN as name from OSM_PREFIX_waterways_gen0 where type=\'river\') as foo using unique osm_id using srid=OSM_SRID"',
-      9:'"geometry from (select geometry, osm_id, type, OSM_NAME_COLUMN as name from OSM_PREFIX_waterways_gen1 where type=\'river\') as foo using unique osm_id using srid=OSM_SRID"',
+      0:'"geometry from (select geometry, osm_id, type, OSM_NAME_COLUMN as name from OSM_PREFIX_waterways where type=\'river\') as foo using unique osm_id using srid=OSM_SRID"',
+      9:'"geometry from (select geometry, osm_id, type, OSM_NAME_COLUMN as name from OSM_PREFIX_waterways where type=\'river\') as foo using unique osm_id using srid=OSM_SRID"',
       12:'"geometry from (select geometry, osm_id, type, OSM_NAME_COLUMN as name from OSM_PREFIX_waterways) as foo using unique osm_id using srid=OSM_SRID"'
    },
-   
+
    'canal_width': {
       0:0,
       10:0.5,
@@ -160,15 +160,15 @@ vars= {
    'river_lbl_ol_clr': "255 255 255",
    'river_lbl_ol_width': 2,
 
-   
+
    ##### landusage ######
    'display_landusage': {
       0:0,
       4:1
    },
-   
+
    'landusage_data': {
-      0:'"geometry from (select geometry ,osm_id, type, OSM_NAME_COLUMN as name from OSM_PREFIX_landusages_gen00)\
+      0:'"geometry from (select geometry ,osm_id, type, OSM_NAME_COLUMN as name from OSM_PREFIX_landusages_gen0)\
             as foo using unique osm_id using srid=OSM_SRID"',
       6:'"geometry from (select geometry ,osm_id, type, OSM_NAME_COLUMN as name from OSM_PREFIX_landusages_gen0)\
             as foo using unique osm_id using srid=OSM_SRID"',
@@ -225,7 +225,7 @@ vars= {
    'education_lbl_clr': '0 0 0',
    'education_lbl_ol_clr': "255 255 255",
    'education_lbl_ol_width': 2,
-   
+
    'sports_clr': '"#DED1AB"',
    'display_sports_lbl' : {0:0, 12:1},
    'sports_font': "sc",
@@ -265,20 +265,26 @@ vars= {
    'transport_lbl_clr': '0 0 0',
    'transport_lbl_ol_clr': "255 255 255",
    'transport_lbl_ol_width': 2,
-   
+
    ###### highways #######
-   
+
    'roads_data': {
       0:'"geometry from (select osm_id,geometry,OSM_NAME_COLUMN as name,ref,type from OSM_PREFIX_roads_gen0 where type in (\'trunk\',\'motorway\') order by z_order asc) as foo using unique osm_id using srid=OSM_SRID"',
       8:'"geometry from (select osm_id,geometry,OSM_NAME_COLUMN as name,ref,type from OSM_PREFIX_roads_gen1 where type in (\'trunk\',\'motorway\',\'primary\') order by z_order asc) as foo using unique osm_id using srid=OSM_SRID"',
       9:'"geometry from (select osm_id,geometry,OSM_NAME_COLUMN as name,ref,type from OSM_PREFIX_roads_gen1 where type in (\'secondary\',\'trunk\',\'motorway\',\'primary\') order by z_order asc) as foo using unique osm_id using srid=OSM_SRID"',
       10:'"geometry from (select osm_id,geometry,OSM_NAME_COLUMN as name,ref,type from OSM_PREFIX_roads_gen1 ) as foo using unique osm_id using srid=OSM_SRID"',
       11:'"geometry from (select osm_id,geometry,OSM_NAME_COLUMN as name,ref,type from OSM_PREFIX_roads order by z_order asc) as foo using unique osm_id using srid=OSM_SRID"',
+      12:'"geometry from (select osm_id,geometry,name,ref,type,tunnel,bridge from OSM_PREFIX_roads order by z_order asc, st_length(geometry) asc) as foo using unique osm_id using srid=OSM_SRID"',
       14:'"geometry from (select osm_id,geometry,OSM_NAME_COLUMN as name,ref,type||bridge||tunnel as type from OSM_PREFIX_roads order by z_order asc, st_length(geometry) asc) as foo using unique osm_id using srid=OSM_SRID"',
    },
-   
+      'roads_shield_data': {
+           0:'"geometry from (select osm_id,geometry,OSM_NAME_COLUMN,ref,(regexp_matches(ref, \'([a-z,A-Z]+)? ?([0-9]+)[^;]*\', \'g\'))[1] as shield_class,(regexp_matches(ref, \'([a-z,A-Z]+)? ?([0-9]+)[^;]*\', \'g\'))[2] as shield_no,type,tunnel,bridge from OSM_PREFIX_roads_gen0 order by z_order asc, st_length(geometry) asc) as foo using unique osm_id using srid=OSM_SRID"',
+           9:'"geometry from (select osm_id,geometry,OSM_NAME_COLUMN,ref,(regexp_matches(ref, \'([a-z,A-Z]+)? ?([0-9]+)[^;]*\', \'g\'))[1] as shield_class,(regexp_matches(ref, \'([a-z,A-Z]+)? ?([0-9]+)[^;]*\', \'g\'))[2] as shield_no,type,tunnel,bridge from OSM_PREFIX_roads_gen1 order by z_order asc, st_length(geometry) asc) as foo using unique osm_id using srid=OSM_SRID"',
+           12:'"geometry from (select osm_id,geometry,OSM_NAME_COLUMN,ref,(regexp_matches(ref, \'([a-z,A-Z]+)? ?([0-9]+)[^;]*\', \'g\'))[1] as shield_class,(regexp_matches(ref, \'([a-z,A-Z]+)? ?([0-9]+)[^;]*\', \'g\'))[2] as shield_no,type,tunnel,bridge from OSM_PREFIX_roads order by z_order asc, st_length(geometry) asc) as foo using unique osm_id using srid=OSM_SRID"',
+    },
+
    'tunnel_opacity': 40,
-   
+
    'display_bridges': {  #also activates tunnels
       0:0,
       14:1
@@ -302,7 +308,7 @@ vars= {
       0:0,
       5:1
    },
-   
+
    'display_motorways': {
       0:0,
       5:1
@@ -340,7 +346,7 @@ vars= {
       10:1
    },
    'motorway_ol_clr': "100 100 100",
-   
+
    'display_trunks': {
       0:0,
       5:1
@@ -378,7 +384,7 @@ vars= {
       10:1
    },
    'trunk_ol_clr': "100 100 100",
-   
+
    'display_primaries': {
       0:0,
       8:1
@@ -456,7 +462,7 @@ vars= {
    'secondary_lbl_ol_clr': '255 255 255',
    'secondary_ol_width': 1,
    'secondary_ol_clr': "0 0 0",
-   
+
    'display_tertiaries': {
       0:0,
       10:1
@@ -631,7 +637,7 @@ vars= {
    'border_epsg': {
       0: '"init=epsg:4326"'
    },
-   
+
    'display_border_2': {
       0:1
    },
@@ -733,8 +739,8 @@ vars= {
    #            0:'',
    #            13:'PATTERN 2 2 END'
    #         },
-   
-   
+
+
    ###### buildings ######
    'display_buildings': {
       0: 0,
@@ -834,7 +840,7 @@ vars= {
    'continent_lbl_ol_width': "1",
    'continent_lbl_ol_clr': "-1 -1 -1",
    'continent_font': "scb",
-   
+
    'display_countries': {
       0:0,
       2:1,
@@ -845,7 +851,7 @@ vars= {
    'country_lbl_ol_width': 2,
    'country_lbl_ol_clr': "-1 -1 -1",
    'country_font': "scb",
-   
+
    'display_cities': {
       0:0,
       3:1,
@@ -883,7 +889,7 @@ vars= {
       0:2,
       10:3
    },
-   
+
    'display_towns': {
       0:0,
       8:1
@@ -913,7 +919,7 @@ vars= {
    },
    'town_ol_clr': "0 0 0",
    'town_clr': "200 200 200",
-   
+
    'display_villages': {
       0:0,
       11:1
@@ -942,7 +948,7 @@ vars= {
    },
    'village_lbl_ol_clr': "255 255 255",
    'village_lbl_ol_width': 2,
-   
+
    'display_hamlets': {
       0:0,
       13:1
@@ -1097,7 +1103,7 @@ styles = {
       'river_clr': '153 179 204',
       'stream_clr': '153 179 204',
       'canal_clr': '153 179 204',
-      
+
       'motorway_ol_clr': '186 110 39',
       'trunk_ol_clr': '221 159 17',
       'primary_ol_clr': '193 181 157',
@@ -1163,7 +1169,7 @@ styles = {
       'river_clr': '172 220 244',
       'stream_clr': '172 220 244',
       'canal_clr': '172 220 244',
-      
+
       'motorway_ol_clr': '0 0 0',
       'trunk_ol_clr': '0 0 0',
       'primary_ol_clr': '0 0 0',
@@ -1173,6 +1179,40 @@ styles = {
       'pedestrian_ol_clr': '0 0 0',
       'footway_clr': '"#7f7f7f"'
    },
+   'usshields': {
+           # Shield for labels for interstate, US hwy and Secondary roads (e.g. "I 95", "US 321", "SR 123")
+            'label_motorways': 0,
+            'label_trunks': 0,
+            'display_catchall_shields': {
+                0:0,
+                10:1
+            },
+            'display_interstate_shields': {
+                0:0,
+                8:1
+                },
+            'highway_shield_font': 'scb',
+            'interstate_shield_symbol': '"symbols/interstate-shield.png"',
+            'interstate_shield_size': 18,
+            'interstate_shield_lbl_size': 6,
+            'interstate_shield_lbl_clr': '255 255 255',
+            'display_ushwy_shields': {
+                0:0,
+                10:1
+                },
+            'ushwy_shield_symbol': '"symbols/ushwy-shield.png"',
+            'ushwy_shield_size': 18,
+            'ushwy_shield_lbl_size': 6,
+            'ushwy_shield_lbl_clr': '0 0 0',
+            'display_secondary_shields': {
+                0:0,
+                12:1
+                },
+            'secondary_shield_symbol': '"symbols/circle-shield.png"',
+            'secondary_shield_size': 18,
+            'secondary_shield_lbl_size': 6,
+            'secondary_shield_lbl_clr': '0 0 0'
+           },
    'bing':{
       'motorway_clr': '"#BAC3A8"',
       'trunk_clr': '"#F2935D"',
@@ -1205,7 +1245,7 @@ styles = {
       'river_clr': '"#b3c6d4"',
       'stream_clr': '"#b3c6d4"',
       'canal_clr': '"#b3c6d4"',
-      
+
       'motorway_ol_clr': '"#39780f"',
       'trunk_ol_clr': '"#bf6219"',
       'primary_ol_clr': '"#d17f40"',
@@ -1258,7 +1298,12 @@ styles = {
          11:'"way from (select osm_id,way,OSM_NAME_COLUMN as name,ref,highway as type, 0 as tunnel, 0 as bridge from OSM_PREFIX_line where highway is not null order by z_order asc, st_length(way) asc) as foo using unique osm_id using srid=OSM_SRID"',
          14:'"way from (select osm_id,way,OSM_NAME_COLUMN as name,ref,highway as type, (case when tunnel=\'yes\' then 1 else 0 end) as tunnel,(case when bridge=\'yes\' then 1 else 0 end) as bridge from OSM_PREFIX_line where highway is not null order by z_order asc, st_length(way) asc) as foo using unique osm_id using srid=OSM_SRID"',
       },
-          
+      'roads_shield_data': {
+           0:'"geometry from (select osm_id,geometry,OSM_NAME_COLUMN,ref,(regexp_matches(ref, \'([a-z,A-Z]+)? ?([0-9]+)[^;]*\', \'g\'))[1] as shield_class,(regexp_matches(ref, \'([a-z,A-Z]+)? ?([0-9]+)[^;]*\', \'g\'))[2] as shield_no,type,tunnel,bridge from OSM_PREFIX_roads_gen0 order by z_order asc, st_length(geometry) asc) as foo using unique osm_id using srid=OSM_SRID"',
+           9:'"geometry from (select osm_id,geometry,OSM_NAME_COLUMN,ref,(regexp_matches(ref, \'([a-z,A-Z]+)? ?([0-9]+)[^;]*\', \'g\'))[1] as shield_class,(regexp_matches(ref, \'([a-z,A-Z]+)? ?([0-9]+)[^;]*\', \'g\'))[2] as shield_no,type,tunnel,bridge from OSM_PREFIX_roads_gen1 order by z_order asc, st_length(geometry) asc) as foo using unique osm_id using srid=OSM_SRID"',
+           12:'"geometry from (select osm_id,geometry,OSM_NAME_COLUMN,ref,(regexp_matches(ref, \'([a-z,A-Z]+)? ?([0-9]+)[^;]*\', \'g\'))[1] as shield_class,(regexp_matches(ref, \'([a-z,A-Z]+)? ?([0-9]+)[^;]*\', \'g\'))[2] as shield_no,type,tunnel,bridge from OSM_PREFIX_roads order by z_order asc, st_length(geometry) asc) as foo using unique osm_id using srid=OSM_SRID"',
+    },
+
    }
 }
 
@@ -1275,7 +1320,7 @@ style_aliases = {
    "default":"default",
 
    # a style resembling the google-maps theme
-   "google":"default,outlined,google",
+   "google":"default,outlined,usshields,google",
 
    # same style as above, but using data coming from an osm2pgsql schema rather than imposm
    "googleosm2pgsql":"default,outlined,google,osm2pgsql",
